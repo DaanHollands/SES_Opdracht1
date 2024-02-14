@@ -9,9 +9,8 @@ Het doel van Candy Crush is om zoveel mogelijk punten te behalen door het matche
 - De speler krijgt een beperkt aantal zetten om punten te scoren. 
  
 2. Matchen van snoepjes: 
-- De speler kan twee aangrenzende snoepjes op het speelbord verwisselen om een rij van minimaal drie identieke snoepjes van dezelfde kleur te vormen. 
-# TODO: verander de onderstaande tekst naar lower case met hoofdletters op de juiste plaats. Verwijder daarna deze todo. 
-- ZODRA EEN MATCH IS GEMAAKT, VERDWIJNEN DE OVEREENKOMENDE SNOEPJES VAN HET SPEELBORD EN WORDEN NIEUWE SNOEPJES VAN BOVENAF IN HET RASTER GEDROPT OM DE LEGE PLEKKEN OP TE VULLEN. 
+- De speler kan twee aangrenzende snoepjes op het speelbord verwisselen om een rij van minimaal drie identieke snoepjes van dezelfde kleur te vormen.
+- zodra een match is gemaakt, verdwijnen de overeenkomende snoepjes van het speelbord en worden nieuwe snoepjes van bovenaf in het raster gedropt om de lege plekken op te vullen. 
 -Extra punten worden verdiend wanneer de speler meer dan drie snoepjes combineert of speciale snoepjes creëert door bijvoorbeeld een L-vormige of T-vormige match te maken. 
  
 3. Speciale snoepjes: 
