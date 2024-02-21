@@ -81,6 +81,11 @@ public class CheckNeighboursInGrid{
         throw new IndexOutOfBoundsException();
     }
 
+    /**
+     * @param grid - This is a 1D Iterable containing all elements of the grid. The elements are integers.
+     * @param indexToCheck - Specifies the index of the element which neighbours that need to be checked
+     * @return  The value of the element with the given index
+     */
     public static int getValueFromIndex(Iterable<Integer> grid, int indexToCheck){
         int valueOfIndex = -1;
         Iterator<Integer> gridIterator = grid.iterator();
