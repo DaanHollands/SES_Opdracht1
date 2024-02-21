@@ -42,8 +42,7 @@ public class CheckNeighboursInGrid{
                             result.add(neighbourIndex);
                         }
                     }
-                } catch (IndexOutOfBoundsException e){
-                    System.out.println(e);
+                } catch (IndexOutOfBoundsException ignored){
                 }
 
             }
@@ -64,7 +63,7 @@ public class CheckNeighboursInGrid{
         if(result[1] < maxHeight){
             return result;
         }
-        throw new IndexOutOfBoundsException("Coordinate not in grid!");
+        throw new IndexOutOfBoundsException();
     }
 
     /**
@@ -74,10 +73,10 @@ public class CheckNeighboursInGrid{
      * @return - the index of said element
      */
     public static int getIndex(int maxWidth, int maxHeight, int[] coordinates) throws IndexOutOfBoundsException{
-        if(coordinates[1] < maxHeight){
-            return coordinates[0] + coordinates[1]*maxWidth;
+        if (coordinates[0] >= 0 && coordinates[1] >= 0 && coordinates[0] < maxWidth && coordinates[1] < maxHeight) {
+                return coordinates[0] + coordinates[1] * maxWidth;
         }
-        throw new IndexOutOfBoundsException("Index not in grid!");
+        throw new IndexOutOfBoundsException();
     }
 
     public static int getValueFromIndex(Iterable<Integer> grid, int indexToCheck){
