@@ -11,7 +11,10 @@ public class Main {
         speelVeld.add(1);speelVeld.add(1);speelVeld.add(0);speelVeld.add(1);speelVeld.add(1);
         speelVeld.add(2);speelVeld.add(1);speelVeld.add(0);speelVeld.add(0);speelVeld.add(0);
 
-        System.out.println(CheckNeighboursInGrid.getSameNeighboursIds(speelVeld, 5, 5, 14));
+        for (int i = 0; i < 25 ; i++) {
+            System.out.println(i + " " + CheckNeighboursInGrid.getSameNeighboursIds(speelVeld, 5, 5, i));
+        }
+
 
     }
 }

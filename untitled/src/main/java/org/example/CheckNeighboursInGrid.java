@@ -59,7 +59,7 @@ public class CheckNeighboursInGrid{
     public static int[] getCoordinate(int maxWidth, int maxHeight, int indexToCheck) throws IndexOutOfBoundsException{
         int[] result = new int[2];
         result[0] = indexToCheck%(maxWidth);                  //width
-        result[1] = (indexToCheck - result[0])/(maxWidth-1);  //height
+        result[1] = (indexToCheck - result[0])/(maxWidth);  //height
         if(result[1] < maxHeight){
             return result;
         }
