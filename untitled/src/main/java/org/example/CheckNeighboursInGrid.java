@@ -2,6 +2,7 @@ package org.example;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 
 public class CheckNeighboursInGrid{
@@ -47,6 +48,7 @@ public class CheckNeighboursInGrid{
 
             }
         }
+        Collections.sort(result);
         return result;
     }
 
