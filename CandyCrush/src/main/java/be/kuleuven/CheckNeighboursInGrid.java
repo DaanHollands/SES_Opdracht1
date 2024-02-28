@@ -1,4 +1,4 @@
-package org.example;
+package be.kuleuven;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -76,7 +76,7 @@ public class CheckNeighboursInGrid{
      */
     public static int getIndex(int maxWidth, int maxHeight, int[] coordinates) throws IndexOutOfBoundsException{
         if (coordinates[0] >= 0 && coordinates[1] >= 0 && coordinates[0] < maxWidth && coordinates[1] < maxHeight) {
-                return coordinates[0] + coordinates[1] * maxWidth;
+            return coordinates[0] + coordinates[1] * maxWidth;
         }
         throw new IndexOutOfBoundsException();
     }
