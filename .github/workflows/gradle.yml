@@ -15,6 +15,7 @@ on:
 
 jobs:
   build:
+    name: gradle-build
 
     runs-on: ubuntu-latest
     permissions:
