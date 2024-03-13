@@ -34,6 +34,7 @@ jobs:
     # See: https://github.com/gradle/actions/blob/main/setup-gradle/README.md
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v3
-
+    - name: Give Execution Rights
+      run: chmod +x ./CandycrushJavaFXstartProject/candycrush/gradlew
     - name: Build with Gradle Wrapper
       run: ./CandycrushJavaFXstartProject/candycrush/gradlew build
