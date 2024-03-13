@@ -37,4 +37,4 @@ jobs:
     - name: Give Execution Rights
       run: chmod +x ./CandycrushJavaFXstartProject/candycrush/gradlew
     - name: Build with Gradle Wrapper
-      run: ./CandycrushJavaFXstartProject/candycrush/gradlew build
+      run: ./CandycrushJavaFXstartProject/candycrush/gradlew build -p CandycrushJavaFXstartProject/candycrush
