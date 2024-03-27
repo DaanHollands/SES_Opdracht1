@@ -1,9 +1,14 @@
 package be.kuleuven.candycrush.view;
 
-import be.kuleuven.candycrush.model.CandycrushModel;
+import be.kuleuven.candycrush.model.*;
+import be.kuleuven.candycrush.model.candies.*;
+import javafx.scene.Node;
+import javafx.scene.PointLight;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
@@ -24,38 +29,55 @@ public class CandycrushView extends Region {
 
     public void update(){
         getChildren().clear();
-        int i = 0;
-        int height = 0;
-        Iterator<Integer> iter = model.getSpeelbord().iterator();
-        while(iter.hasNext()) {
-            int candy = iter.next();
-            Rectangle rectangle = new Rectangle(i * widthCandy, height * heigthCandy, widthCandy,heigthCandy);
-            rectangle.setFill(Color.TRANSPARENT);
+        for (Position position : model.getBoardSize().positions()) {
+            Node node = makeShapeCandy(position, model.getCandyFromPosition(position));
+
+            Rectangle rectangle = new Rectangle(widthCandy, heigthCandy);
             rectangle.setStroke(Color.BLACK);
-            Text text = new Text("" + candy);
-            text.setX(rectangle.getX() + (rectangle.getWidth() - text.getBoundsInLocal().getWidth()) / 2);
-            text.setY(rectangle.getY() + (rectangle.getHeight() + text.getBoundsInLocal().getHeight()) / 2);
-            getChildren().addAll(rectangle,text);
+            rectangle.setFill(Color.TRANSPARENT);
+            rectangle.setLayoutX(position.x()*widthCandy);
+            rectangle.setLayoutY(position.y()*heigthCandy);
 
-            if (i == model.getWidth() - 1) {
-                i = 0;
-                height++;
-            } else {
-                i++;
-            }
+            getChildren().addAll(node, rectangle);
         }
-
     }
 
-    public int getIndexOfClicked(MouseEvent me){
-        int index = -1;
-        int row = (int) me.getY()/heigthCandy;
-        int column = (int) me.getX()/widthCandy;
+    public Position getPositionOfClicked(MouseEvent me){
+        int row = (int) me.getX()/heigthCandy;
+        int column = (int) me.getY()/widthCandy;
+        Position pos = new Position(row, column, model.getBoardSize());
         System.out.println(me.getX()+" - "+me.getY()+" - "+row+" - "+column);
-        if (row < model.getWidth() && column < model.getHeight()){
-            index = model.getIndexFromRowColumn(row,column);
-            System.out.println(index);
+        if (row < model.getBoardSize().width() && column < model.getBoardSize().height()){
+            System.out.println(pos.toIndex());
         }
-        return index;
+        return pos;
+    }
+
+    public Node makeShapeCandy(Position position, Candy candy){
+        if(candy instanceof normalCandy){
+            Circle circle = new Circle(position.x() * widthCandy + widthCandy/2, position.y() * heigthCandy + heigthCandy/2, 0.4*widthCandy);
+            circle.setStroke(Color.BLACK);
+            switch (((normalCandy) candy).color()){
+                case 0 -> circle.setFill(Color.BLUE);
+                case 1 -> circle.setFill(Color.RED);
+                case 2 -> circle.setFill(Color.GREEN);
+                case 3 -> circle.setFill(Color.YELLOW);
+                default -> throw new IllegalStateException("Unexpected value: " + ((normalCandy) candy).color());
+            };
+            return circle;
+        }else {
+            Rectangle rectangle = new Rectangle(widthCandy*0.8, heigthCandy*0.8);
+            rectangle.setStroke(Color.BLACK);
+            rectangle.setLayoutX(position.x()*widthCandy + 0.1 * widthCandy);
+            rectangle.setLayoutY(position.y()*heigthCandy + 0.1 * heigthCandy);
+            switch (candy) {
+                case MultiCandy multiCandy -> rectangle.setFill(Color.BLUE);
+                case RareCandy rareCandy -> rectangle.setFill(Color.RED);
+                case RowSnapper rowSnapper -> rectangle.setFill(Color.GREEN);
+                case TurnMaster turnMaster -> rectangle.setFill(Color.YELLOW);
+                default -> throw new IllegalStateException("Unexpected value: " + candy);
+            };
+            return rectangle;
+        }
     }
 }

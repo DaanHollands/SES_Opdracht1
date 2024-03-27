@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import be.kuleuven.candycrush.model.CandycrushModel;
+import be.kuleuven.candycrush.model.Position;
 import be.kuleuven.candycrush.view.CandycrushView;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -76,8 +77,8 @@ public class CandycrushController {
     }
 
     public void onCandyClicked(MouseEvent me){
-        int candyIndex = view.getIndexOfClicked(me);
-        model.changeNeighbours(candyIndex);
+        Position candyPos = view.getPositionOfClicked(me);
+        model.changeNeighbours(candyPos);
         update();
     }
 
