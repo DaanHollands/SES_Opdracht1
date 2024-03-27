@@ -12,7 +12,7 @@ version '1.0-SNAPSHOT'
 repositories {
     mavenCentral()
     maven {
-        url = "C:\\Users\\theme\\Bureaublad\\School\\Semester 2\\Software Engineering Skills\\SES_Opdrach1\\maven-libs"
+        url = "..\\..\\maven-libs"
     }
 }
 
