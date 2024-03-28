@@ -39,8 +39,6 @@ javafx {
 
 dependencies {
     implementation('org.controlsfx:controlsfx:11.1.2')
-    implementation group:'be.kuleuven', name:'CheckNeigboursInGrid', version:'1.0'
-
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.25.3'
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")

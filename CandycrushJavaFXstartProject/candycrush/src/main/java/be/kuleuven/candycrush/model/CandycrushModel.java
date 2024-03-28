@@ -7,33 +7,20 @@ import java.util.Random;
 
 public class CandycrushModel {
     private String speler;
-    private ArrayList<Candy> speelbord;
-
-    private BoardSize boardSize;
-
     private int score;
-
-
-
+    private Board<Candy> board;
     public CandycrushModel(String speler) {
         this.speler = speler;
-        speelbord = new ArrayList<>();
-        this.boardSize = new BoardSize(10, 10);
-
-        fillGrid();
+        this.board = new Board<Candy>(new BoardSize(10, 10), this::getCandy);
     }
 
     public void changeName(String name){
         this.speler = name;
     }
 
-    private void fillGrid(){
-        speelbord.clear();
-        for (int i = 0; i < boardSize.width()* boardSize.height(); i++){
-            speelbord.add(getRandomCandy());
-        }
+    public Candy getCandy(Position position){
+        return getRandomCandy();
     }
-
     private Candy getRandomCandy(){
         Random random = new Random();
         int randomGetal = random.nextInt(9)+1;
@@ -49,23 +36,15 @@ public class CandycrushModel {
         return speler;
     }
 
-    public ArrayList<Candy> getSpeelbord() {
-        return speelbord;
-    }
-
     public int getScore(){return score;}
 
     public BoardSize getBoardSize(){
-        return this.boardSize;
-    }
-
-    public int getSpeelbordLength(){
-        return speelbord.size();
+        return this.board.getBoardSize();
     }
 
     public void candyWithPositionSelected(Position position){
         if (position.toIndex() != -1){
-            speelbord.set(position.toIndex(),getRandomCandy());
+            board.replaceCellAt(position,getRandomCandy());
             System.out.println("Random generate");
         }else{
             System.out.println("model:candyWithIndexSelected:indexWasMinusOne");
@@ -77,18 +56,8 @@ public class CandycrushModel {
     }
 
     public void resetSpeelbord(){
-        fillGrid();
+        board.fill(this::getCandy);
     }
-
-    public void setSpeelbord(ArrayList<Candy> speelbord){
-        this.speelbord.clear();
-        this.speelbord.addAll(speelbord);
-    }
-
-    public void setScorebord(int score){
-        this.score = score;
-    }
-
 
     public void changeNeighbours(Position position){
       ArrayList<Position> Neighbours = (ArrayList<Position>) getSameNeighbourPositions(position);
@@ -113,6 +82,6 @@ public class CandycrushModel {
     }
 
     public Candy getCandyFromPosition(Position position) {
-        return speelbord.get(position.toIndex());
+        return board.getCellAt(position);
     }
 }
