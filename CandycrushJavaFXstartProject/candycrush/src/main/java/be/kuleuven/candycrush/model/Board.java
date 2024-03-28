@@ -1,12 +1,17 @@
 package be.kuleuven.candycrush.model;
+import com.google.common.collect.*;
 
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
-
 public class Board<T> {
-    private ArrayList<T> list;
+    private Map<Position, T> list = new HashMap<>();
+
+    private Multimap<T, Position> reverseList = ArrayListMultimap.create();
     private BoardSize boardSize;
+
 
     public BoardSize getBoardSize(){
         return boardSize;
@@ -14,13 +19,12 @@ public class Board<T> {
 
     public Board(BoardSize boardSize, Function<Position, T> CellCreator) {
         this.boardSize = boardSize;
-        this.list = new ArrayList<>(Collections.nCopies(boardSize.height()*boardSize.height(), null));
         fill(CellCreator);
     }
 
     public T getCellAt(Position position){
         if(position.toIndex() <= list.size()){
-            return list.get(position.toIndex());
+            return list.get(position);
         } else {
             throw new IndexOutOfBoundsException();
 
@@ -29,7 +33,9 @@ public class Board<T> {
 
     public void replaceCellAt(Position position, T newCell){
         if(position.toIndex() <= list.size()){
-            list.set(position.toIndex(), newCell);
+            reverseList.remove(list.get(position), position);
+            list.replace(position, newCell);
+            reverseList.put(newCell, position);
         } else {
             throw new IndexOutOfBoundsException();
         }
@@ -38,9 +44,15 @@ public class Board<T> {
     public void fill(Function<Position, T> CellCreator){
         for (int i = 0; i < boardSize.height(); i++) {
             for (int j = 0; j < boardSize.width(); j++) {
-                list.set((j + (boardSize.width() * i)), CellCreator.apply(new Position(i, j, boardSize)));
+                Position pos = new Position(i, j, getBoardSize());
+                list.put(pos, CellCreator.apply(pos));
+                reverseList.put(CellCreator.apply(pos), pos);
             }
         }
+    }
+
+    public List<Position> getPositionsOfElement(T cell){
+        return Collections.unmodifiableList((List<Position>) reverseList.get(cell));
     }
 
     public void copyTo(Board<T> otherBoard){

@@ -11,9 +11,6 @@ version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
-    maven {
-        url = "..\\..\\maven-libs"
-    }
 }
 
 ext {
@@ -39,6 +36,7 @@ javafx {
 
 dependencies {
     implementation('org.controlsfx:controlsfx:11.1.2')
+    implementation group: 'com.google.guava', name: 'guava', version: '33.1.0-jre'
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.25.3'
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
