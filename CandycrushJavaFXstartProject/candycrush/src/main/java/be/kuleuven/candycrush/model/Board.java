@@ -5,12 +5,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 public class Board<T> {
-    private Map<Position, T> list = new HashMap<>();
+    private volatile Map<Position, T> list = new ConcurrentHashMap<>();
 
-    private Multimap<T, Position> reverseList = ArrayListMultimap.create();
-    private BoardSize boardSize;
+    private volatile Multimap<T, Position> reverseList = ArrayListMultimap.create();
+    private final BoardSize boardSize;
 
 
     public BoardSize getBoardSize(){
@@ -22,7 +23,7 @@ public class Board<T> {
         fill(CellCreator);
     }
 
-    public T getCellAt(Position position){
+    public synchronized T getCellAt(Position position){
         if(position.toIndex() <= list.size()){
             return list.get(position);
         } else {
@@ -31,7 +32,7 @@ public class Board<T> {
         }
     }
 
-    public void replaceCellAt(Position position, T newCell){
+    public synchronized void replaceCellAt(Position position, T newCell){
         if(position.toIndex() <= list.size()){
             reverseList.remove(list.get(position), position);
             list.replace(position, newCell);
@@ -41,7 +42,7 @@ public class Board<T> {
         }
     }
 
-    public void fill(Function<Position, T> CellCreator){
+    public synchronized void fill(Function<Position, T> CellCreator){
         for (int i = 0; i < boardSize.height(); i++) {
             for (int j = 0; j < boardSize.width(); j++) {
                 Position pos = new Position(i, j, getBoardSize());
@@ -51,11 +52,11 @@ public class Board<T> {
         }
     }
 
-    public List<Position> getPositionsOfElement(T cell){
+    public synchronized List<Position> getPositionsOfElement(T cell){
         return Collections.unmodifiableList((List<Position>) reverseList.get(cell));
     }
 
-    public void copyTo(Board<T> otherBoard){
+    public synchronized void copyTo(Board<T> otherBoard){
         if(boardSize.equals(otherBoard.getBoardSize())){
             for (int i = 0; i < boardSize.height(); i++) {
                 for (int j = 0; j < boardSize.width(); j++) {
