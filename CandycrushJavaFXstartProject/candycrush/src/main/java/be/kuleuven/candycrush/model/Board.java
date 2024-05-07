@@ -52,6 +52,8 @@ public class Board<T> {
         }
     }
 
+
+
     public synchronized List<Position> getPositionsOfElement(T cell){
         return Collections.unmodifiableList((List<Position>) reverseList.get(cell));
     }

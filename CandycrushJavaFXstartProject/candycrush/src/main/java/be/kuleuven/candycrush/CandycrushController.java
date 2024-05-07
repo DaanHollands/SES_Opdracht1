@@ -79,7 +79,12 @@ public class CandycrushController {
     public void onCandyClicked(MouseEvent me){
         Position candyPos = view.getPositionOfClicked(me);
         model.changeNeighbours(candyPos);
+        System.out.println("Matches: " + model.findAllMatches());
         update();
+//        System.out.println("Right Match: " + model.longestMatchToRight(candyPos));
+//        System.out.println("Down Match: " + model.longestMatchDown(candyPos));
+//        model.horizontalStartingPosition().forEach(System.out::println);
+//        model.verticalStartingPosition().forEach(System.out::println);
     }
 
 }

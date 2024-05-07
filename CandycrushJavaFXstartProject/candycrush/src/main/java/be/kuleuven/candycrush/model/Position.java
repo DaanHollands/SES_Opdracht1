@@ -1,6 +1,9 @@
 package be.kuleuven.candycrush.model;
 
 import java.util.ArrayList;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 public record Position(int x, int y, BoardSize boardSize) {
     public Position {
@@ -27,12 +30,33 @@ public record Position(int x, int y, BoardSize boardSize) {
                 try {
                     positions.add(new Position(x+i,y+j, boardSize));
                 }catch (IllegalArgumentException e){
-                    System.out.println(e);
+                    System.out.println(e.getMessage());;
                 }
             }
         }
 
         return positions;
+    }
+
+
+    public Stream<Position> walkLeft(){
+        return IntStream.rangeClosed(0, x)
+                .mapToObj(i -> new Position(x - i, y, boardSize));
+    }
+
+    public Stream<Position> walkRight(){
+        return IntStream.rangeClosed(x, boardSize().width()-1)
+                .mapToObj(i -> new Position(i, y, boardSize));
+    }
+
+    public Stream<Position> walkUp(){
+        return IntStream.rangeClosed(0, y)
+                .mapToObj(i -> new Position(x, y - i, boardSize));
+    }
+
+    public Stream<Position> walkDown(){
+        return IntStream.rangeClosed(y, boardSize().height()-1)
+                .mapToObj(i -> new Position(x, i, boardSize));
     }
 
     boolean isLastColumn(){
