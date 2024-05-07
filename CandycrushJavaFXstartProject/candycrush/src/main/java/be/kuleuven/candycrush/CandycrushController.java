@@ -1,7 +1,11 @@
 package be.kuleuven.candycrush;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import be.kuleuven.candycrush.model.CandycrushModel;
 import be.kuleuven.candycrush.model.Position;
@@ -78,9 +82,10 @@ public class CandycrushController {
 
     public void onCandyClicked(MouseEvent me){
         Position candyPos = view.getPositionOfClicked(me);
-        model.changeNeighbours(candyPos);
-        System.out.println("Matches: " + model.findAllMatches());
+        System.out.println(model.updateBoard());
         update();
+//        model.changeNeighbours(candyPos);
+//        System.out.println("Matches: " + model.findAllMatches());
 //        System.out.println("Right Match: " + model.longestMatchToRight(candyPos));
 //        System.out.println("Down Match: " + model.longestMatchDown(candyPos));
 //        model.horizontalStartingPosition().forEach(System.out::println);

@@ -65,7 +65,13 @@ public class CandycrushView extends Region {
                 default -> throw new IllegalStateException("Unexpected value: " + ((normalCandy) candy).color());
             };
             return circle;
-        }else {
+        } else if(candy instanceof EmptyCandy){
+              Rectangle rectangle = new Rectangle(widthCandy*0.8, heigthCandy*0.8);
+              rectangle.setLayoutX(position.x()*widthCandy + 0.1 * widthCandy);
+              rectangle.setLayoutY(position.y()*heigthCandy + 0.1 * heigthCandy);
+              rectangle.setFill(Color.WHITE);
+              return rectangle;
+        } else {
             Rectangle rectangle = new Rectangle(widthCandy*0.8, heigthCandy*0.8);
             rectangle.setStroke(Color.BLACK);
             rectangle.setLayoutX(position.x()*widthCandy + 0.1 * widthCandy);
