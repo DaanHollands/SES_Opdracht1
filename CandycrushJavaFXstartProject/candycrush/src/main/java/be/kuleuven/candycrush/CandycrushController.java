@@ -1,13 +1,10 @@
 package be.kuleuven.candycrush;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import be.kuleuven.candycrush.model.CandycrushModel;
+import be.kuleuven.candycrush.model.CreateTemplateModel;
 import be.kuleuven.candycrush.model.Position;
 import be.kuleuven.candycrush.view.CandycrushView;
 import javafx.fxml.FXML;
@@ -56,7 +53,12 @@ public class CandycrushController {
         assert paneel != null : "fx:id=\"paneel\" was not injected: check your FXML file 'candycrush-view.fxml'.";
         assert speelbord != null : "fx:id=\"speelbord\" was not injected: check your FXML file 'candycrush-view.fxml'.";
         assert textInput != null : "fx:id=\"textInput\" was not injected: check your FXML file 'candycrush-view.fxml'.";
-        model = new CandycrushModel(textInput.getText());
+//        model = new CandycrushModel(textInput.getText());
+        model = CreateTemplateModel.createBoardFromString("""
+                @@o#
+                o*#o
+                @@**
+                *#@@""");
         view = new CandycrushView(model);
         speelbord.getChildren().add(view);
         view.setOnMouseClicked(this::onCandyClicked);
@@ -82,7 +84,12 @@ public class CandycrushController {
 
     public void onCandyClicked(MouseEvent me){
         Position candyPos = view.getPositionOfClicked(me);
-        System.out.println(model.updateBoard());
+//      System.out.println(model.updateBoard());
+//      var test = model.giveMeAids();
+//      System.out.println(model.simulateMove(test.iterator().next()));
+        var test = model.maximizeScore();
+//        System.out.println(test);
+        System.out.println("Best: " + test.getHighScore() + ", met de volgende moves" + test.getSolution());
         update();
 //        model.changeNeighbours(candyPos);
 //        System.out.println("Matches: " + model.findAllMatches());

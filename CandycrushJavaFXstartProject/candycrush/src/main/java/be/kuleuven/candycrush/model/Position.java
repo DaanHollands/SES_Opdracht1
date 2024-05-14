@@ -30,7 +30,7 @@ public record Position(int x, int y, BoardSize boardSize) {
                 try {
                     positions.add(new Position(x+i,y+j, boardSize));
                 }catch (IllegalArgumentException e){
-                    System.out.println(e.getMessage());;
+//                    System.out.println(e.getMessage());;
                 }
             }
         }
@@ -61,5 +61,10 @@ public record Position(int x, int y, BoardSize boardSize) {
 
     boolean isLastColumn(){
         return x == boardSize().width()-1;
+    }
+
+    @Override
+    public String toString() {
+        return "(x: " + (x+1) + " y: " + (y+1) + ")";
     }
 }

@@ -1,12 +1,11 @@
 package be.kuleuven.candycrush.model;
 import com.google.common.collect.*;
+import org.checkerframework.checker.units.qual.C;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
-public class Board<T> {
+public class Board<T> implements Cloneable {
     private volatile Map<Position, T> list = new ConcurrentHashMap<>();
 
     private volatile Multimap<T, Position> reverseList = ArrayListMultimap.create();
@@ -29,6 +28,12 @@ public class Board<T> {
             throw new IndexOutOfBoundsException();
 
         }
+    }
+
+    public synchronized void swapCells(PositionPair positionPair){
+        var temp = getCellAt(positionPair.position1());
+        replaceCellAt(positionPair.position1(), getCellAt(positionPair.position2()));
+        replaceCellAt(positionPair.position2(), temp);
     }
 
     public synchronized void replaceCellAt(Position position, T newCell){
@@ -68,5 +73,32 @@ public class Board<T> {
         } else {
             throw new IllegalArgumentException("Different Boardsize!");
         }
+    }
+
+    public Map<Position, T> getList(){
+        return Collections.unmodifiableMap(list);
+    }
+
+    @Override
+    public Board<T> clone() {
+        try {
+            @SuppressWarnings("unchecked") // This cast is safe because the Board is being cloned to the same type T
+            Board<T> clonedBoard = (Board<T>) super.clone();
+            clonedBoard.list = new ConcurrentHashMap<>(list); // Deep copy the list
+            clonedBoard.reverseList = ArrayListMultimap.create(); // Create a new reverseList
+            for (Map.Entry<T, Collection<Position>> entry : reverseList.asMap().entrySet()) {
+                clonedBoard.reverseList.putAll(entry.getKey(), new ArrayList<>(entry.getValue())); // Deep copy positions in reverseList
+            }
+            return clonedBoard;
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e); // Re-throw as unchecked exception
+        }
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        list.forEach((position, cell) -> builder.append(position).append(": ").append(cell).append("\n"));
+        return builder.toString();
     }
 }
