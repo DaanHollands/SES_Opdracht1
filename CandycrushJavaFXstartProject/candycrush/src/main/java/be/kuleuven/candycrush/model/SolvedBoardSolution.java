@@ -37,7 +37,11 @@ public class SolvedBoardSolution implements Cloneable{
     }
 
     public boolean isBetterThan(SolvedBoard solvedBoard){
-        return currentModel.getScore() > solvedBoard.getHighScore();
+        if(currentModel.getScore() > solvedBoard.getHighScore()){
+            return true;
+        } else if(currentModel.getScore() == solvedBoard.getHighScore()){
+            return solution.size() < solvedBoard.getSolution().size();
+        } else return false;
     }
 
     public SolvedBoard getSolvedBoard(){
